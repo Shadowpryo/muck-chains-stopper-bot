@@ -12,9 +12,9 @@ Muck_list = ["muck", "muck.", "muck!", "muck?",
 # initialize with appropriate values
 client_id = ""
 client_secret = ""
-username = "DaniDevChainBreaker"
+username = ""
 password = ""
-user_agent = "u/hananelroe's comment chains breaker bot"
+user_agent = "u/hananelroe's comment chains breaker bot, with Shadow_pryo updates"
 comment_content = "#**SHUT**\n___\n ^(I'm just a simple bot that wants to stop muck chains, [here is my source code](https://github.com/hananelroe/muck-chains-stopper-bot))\n\n ^(oh and if you're a real boner - upvote this comment. it helps my karma.)"
 
 while True:
@@ -31,10 +31,14 @@ while True:
     try:
         for comment in subreddit.stream.comments(skip_existing=True):
             print(comment.body)
+            com = "".join(comment.body.lower().split())
+            if("muck" in com):
+                print("Found muck in a comment")
             # check if the comment is above 74% muck: (allows 1 wrong letter in a 4 letters word)
             for item in Muck_list:
-                if fuzz.ratio(comment.body.lower(), item) > 74:
-                    comment.reply(comment_content)
+                if fuzz.ratio(com[0:4], item) > 74:
+                    #comment.reply(comment_content)
+                    print("Found muck chain")
                     break  # exit Muck_list loop
     except KeyboardInterrupt:  # Ctrl-C - stop
         print("Bye!")
